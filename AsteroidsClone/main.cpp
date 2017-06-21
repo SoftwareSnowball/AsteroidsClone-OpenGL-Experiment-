@@ -1,151 +1,48 @@
 #include "externs.h"
 #include <iostream>
 #include <string>
-#include <fstream>
-
-using std::cout;
-
-void error_callback(int error, const char* description)
-{
-	printf(description);
-}
-
-
-std::string read_file(const char* path)
-{
-	std::ifstream reader(path);
-
-	if (reader.fail())
-	{
-		std::cout << "Could not read file\n";
-		return std::string();
-	}
-
-
-
-	std::string fileContents;
-	std::string temp;
-
-
-	while (!reader.eof())
-	{
-		std::getline(reader, temp);
-		fileContents.append(temp);
-		fileContents.append("\n");
-	}
-
-
-
-	reader.close();
-
-	return fileContents;
-
-}
-
-
+#include "window.h"
+#include "utils.h"
+#include "asset_manager.h"
 
 int main()
 {
 
+	Window window;
 
-	glfwSetErrorCallback(error_callback);
-
-	if (!glfwInit())
+	if (window.creationFailed())
 	{
-		cout << "GLFW failed to initialize\n";
-		system("PAUSE");
-
-		return 0;
-	}
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); 
-	glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
-
-
-	GLFWwindow* window;
-	window = glfwCreateWindow(800, 600, "Asteroids", nullptr, nullptr);
-
-
-	if (!window)
-	{
-		cout << "GLFW failed to create the window\n";
+		std::cout << "Window creation failure.\n";
 		system("PAUSE");
 		return 0;
 	}
-
-	glfwMakeContextCurrent(window);
-	std::cout << glGetString(GL_VERSION) << std::endl;
-	std::cout << glGetString(GL_RENDERER) << std::endl;
 
 	GLfloat vertices[] = { 
 		-0.5f, -0.5f, 0.0f, 
 		0.5f, -0.5f, 0.0f,
-		0.0f, 0.5f, 0.0f };
+		0.5f, 0.5f, 0.0f,
+		-0.5f, 0.5f, 0.0f
+	};
 
-	if (glewInit() != GLEW_OK) 
-	{ 
-		std::cout << "Failed to initialize GLEW" << std::endl; return -1;
-	}
+	GLint indices[] = {
+		0,1,3,
+		1,2,3
+	};
 
-	glViewport(0, 0, 800, 600);
+	AssetManager assetManager;
 
-	GLuint VBO; 
-	glGenBuffers(1, &VBO);
-
-
-	std::string vertShader = read_file("shader.vert");
-	std::string fragShader = read_file("shader.frag");
-
-
-	//loading and compiling vertex shader
-	GLuint vertexShader; 
-	vertexShader = glCreateShader(GL_VERTEX_SHADER);
-
-	const char* c_str = vertShader.c_str();
-	glShaderSource(vertexShader, 1, &c_str, NULL); 
-	glCompileShader(vertexShader);
-
-	GLint success; GLchar infoLog[512]; 
-	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-
-	if (!success) 
-	{ 
-		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog); 
-		std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl; 
-	}
-
-	//Loading and compiling fragment shader
-	GLuint fragmentShader;
-	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	c_str = fragShader.c_str();
-
-	glShaderSource(fragmentShader, 1, &c_str, NULL);
-	glCompileShader(fragmentShader);
-	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-
-	if (!success)
-	{
-		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
-	}
+	GLuint vertexShader = assetManager.compileVertShader("shader.vert");
+	GLuint fragmentShader = assetManager.compileFragShader("shader.frag");
 
 	//creating shader program
-	GLuint shaderProgram; 
-	shaderProgram = glCreateProgram();
+	GLuint shaderProgram = assetManager.compileShaderProgram(vertexShader, fragmentShader);
 
-	glAttachShader(shaderProgram, vertexShader); 
-	glAttachShader(shaderProgram, fragmentShader);
-	glLinkProgram(shaderProgram);
+	GLuint VBO;
+	glGenBuffers(1, &VBO);
 
-	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+	GLuint EBO;
+	glGenBuffers(1, &EBO);
 
-	if (!success) 
-	{ 
-		glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-		std::cout << "Shader link failed\n";
-		std::cout << infoLog;
-	}
 
 	GLuint VAO; 
 	glGenVertexArrays(1, &VAO);
@@ -154,6 +51,11 @@ int main()
 		// 0. Copy our vertices array in a buffer for OpenGL to use 
 		glBindBuffer(GL_ARRAY_BUFFER, VBO); 
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); 
+
+		//Copy into element buffer
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO); 
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
 		// 1. Then set the vertex attributes pointers 
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), ( GLvoid*)0);
 		glEnableVertexAttribArray(0);
@@ -165,14 +67,13 @@ int main()
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), ( GLvoid*)0); glEnableVertexAttribArray(0); 
 		glEnableVertexAttribArray(0);
 		//4. Unbind the VAO 
-		glBindVertexArray(0);
 	glBindVertexArray(0);
 
 
 
 
 
-	while (!glfwWindowShouldClose(window))
+	while (!window.shouldClose())
 	{
 
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -180,11 +81,11 @@ int main()
 
 		glUseProgram(shaderProgram); 
 		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 
 		/* Swap front and back buffers */
-		glfwSwapBuffers(window);
+		window.swapBuffers();
 
 		/* Poll for and process events */
 		glfwPollEvents();
