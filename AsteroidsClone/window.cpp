@@ -1,7 +1,11 @@
 #include "window.h"
+#include <iostream>
 #include <cassert>
+#include "utils.h"
 
 bool Window::isWindowInit = false;
+bool Window::glError = false;
+
 
 Window::Window()
 	:Window(800, 600)
@@ -60,4 +64,43 @@ Window::~Window()
 {
 	isWindowInit = false;
 	glfwTerminate();
+}
+
+bool Window::shouldClose()
+{
+
+	if (glError)
+	{
+		system("PAUSE");
+		return true;
+	}
+
+	if (glfwWindowShouldClose(window))
+	{
+		return true;
+	}
+
+
+	return false;
+}
+
+void Window::update()
+{
+
+	checkGLErrors();
+	swapBuffers();
+	glfwPollEvents();
+}
+
+bool Window::checkGLErrors()
+{
+	GLenum error = glGetError();
+
+	if (error != GL_NO_ERROR)
+	{
+		std::cout << "OpenGL error: " << error << std::endl;
+		glError = true;
+	}
+
+	return glError;
 }

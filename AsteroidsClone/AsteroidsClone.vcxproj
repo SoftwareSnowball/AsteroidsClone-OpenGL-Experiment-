@@ -120,15 +120,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="asset_manager.cpp" />
+    <ClCompile Include="array_buffers.cpp" />
+    <ClCompile Include="element_buffer.cpp" />
+    <ClCompile Include="mat4.cpp" />
+    <ClCompile Include="shader.cpp" />
+    <ClCompile Include="vec4.cpp" />
+    <ClCompile Include="vertex_array.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="asset_manager.h" />
+    <ClInclude Include="array_buffer.h" />
+    <ClInclude Include="element_buffer.h" />
+    <ClInclude Include="buffers.h" />
+    <ClInclude Include="mat3.h" />
+    <ClInclude Include="mat4.h" />
+    <ClInclude Include="math_lib.h" />
+    <ClInclude Include="shader.h" />
+    <ClInclude Include="sprite.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="externs.h" />
+    <ClInclude Include="vec2.h" />
+    <ClInclude Include="vec3.h" />
+    <ClInclude Include="vec4.h" />
+    <ClInclude Include="vertex_array.h" />
     <ClInclude Include="window.h" />
   </ItemGroup>
   <ItemGroup>

@@ -1,23 +1,35 @@
-#include "asset_manager.h"
+#include "shader.h"
 
-AssetManager::AssetManager()
-	:AssetManager("")
+//Not sure if I want to leave this include here or move to header
+//It's nice to not have it included with everything else but it should
+//be guarded anyway, the rest of my code uses it, and it seems nicer to
+//be able to look at the header and see all the libraries that something uses
+#include "utils.h"
+
+#include <iostream>
+
+
+Shader::Shader(const char * vertPath, const char * fragPath)
 {
+	GLuint vert = compileVertShader(vertPath);
+	GLuint frag = compileFragShader(fragPath);
+	id = linkShaders(vert, frag);
+
 }
 
-AssetManager::AssetManager(string assetRootDirectory)
-	:m_assetRootDirectory{assetRootDirectory}
+Shader::~Shader()
 {
+	clear();
 }
 
-AssetManager::AssetManager(const char * assetRootDirectory)
-	:AssetManager(string(assetRootDirectory))
+void Shader::setActive()
 {
+	glUseProgram(id);
 }
 
-GLuint AssetManager::compileVertShader(string name)
+GLuint Shader::compileVertShader(const char * path)
 {
-	string data = getFile(name);
+	std::string data = read_file(path);
 
 	GLuint vertexShader;
 	vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -36,19 +48,12 @@ GLuint AssetManager::compileVertShader(string name)
 		return 0;
 	}
 
-	shaders.push_back(vertexShader);
-
 	return vertexShader;
 }
 
-GLuint AssetManager::compileVertShader(const char * name)
+GLuint Shader::compileFragShader(const char * path)
 {
-	return compileVertShader(string(name));
-}
-
-GLuint AssetManager::compileFragShader(string name)
-{
-	string data = getFile(name);
+	std::string data = read_file(path);
 
 	GLuint fragmentShader;
 	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
@@ -66,45 +71,17 @@ GLuint AssetManager::compileFragShader(string name)
 		return 0;
 	}
 
-	shaders.push_back(fragmentShader);
 	return fragmentShader;
 }
 
-GLuint AssetManager::compileFragShader(const char * name)
+GLuint Shader::linkShaders(GLuint vert, GLuint frag)
 {
-	return compileFragShader(string(name));
-}
-
-void AssetManager::clearShaders()
-{
-
-	for (unsigned int i = 0; i < shaders.size(); i++)
-	{
-		glDeleteShader(shaders[i]);
-	}
-
-	shaders.clear();
-
-}
-
-void AssetManager::deleteShader(GLuint shaderid)
-{
-
-	//TODO
-
-	std::cout << "Error. Function AssetManager::deleteShader(GLuint) not yet implemented\n";
-
-}
-
-GLuint AssetManager::compileShaderProgram(GLuint vertShader, GLuint fragShader)
-{
-
 	GLint success; GLchar infoLog[512];
 	GLuint shaderProgram;
 	shaderProgram = glCreateProgram();
 
-	glAttachShader(shaderProgram, vertShader);
-	glAttachShader(shaderProgram, fragShader);
+	glAttachShader(shaderProgram, vert);
+	glAttachShader(shaderProgram, frag);
 	glLinkProgram(shaderProgram);
 
 	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
@@ -117,11 +94,13 @@ GLuint AssetManager::compileShaderProgram(GLuint vertShader, GLuint fragShader)
 		return 0;
 	}
 
+	glDeleteShader(vert);
+	glDeleteShader(frag);
 
 	return shaderProgram;
 }
 
-string AssetManager::getFile(string name)
+void Shader::clear()
 {
-	return read_file(m_assetRootDirectory + name);
+	glDeleteProgram(id);
 }
