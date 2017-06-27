@@ -1,114 +1,118 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\Utilities">
-      <UniqueIdentifier>{81a8f3d7-9631-4875-90eb-c64ac9f89272}</UniqueIdentifier>
+    <Filter Include="src">
+      <UniqueIdentifier>{1239fb27-561b-48e6-8611-41ce67e75aab}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Utilities\Math">
-      <UniqueIdentifier>{d6f54754-3ab1-4566-8377-aaf344fd6e04}</UniqueIdentifier>
+    <Filter Include="src\Graphics">
+      <UniqueIdentifier>{0a5057df-b91b-4e5a-aa59-86c810fb3f10}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Graphics">
-      <UniqueIdentifier>{b467aaed-2a0b-4174-8635-1ff21df39b5b}</UniqueIdentifier>
+    <Filter Include="src\Graphics\Buffers">
+      <UniqueIdentifier>{10b57fc6-d386-4189-9ae1-ac48600946ff}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Graphics\Buffers">
-      <UniqueIdentifier>{42cc4ff3-4bb7-48d8-90f2-2fcc21882b93}</UniqueIdentifier>
+    <Filter Include="src\Utilites">
+      <UniqueIdentifier>{e8deb425-1663-470c-b7c8-1991a4d7a53f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Graphics">
-      <UniqueIdentifier>{77729db8-540c-4763-8ada-cc1c768dd15d}</UniqueIdentifier>
+    <Filter Include="src\Utilites\Math">
+      <UniqueIdentifier>{f7f5b39f-6a99-431e-982b-db61aa0b6e00}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Graphics\Buffers">
-      <UniqueIdentifier>{3e349343-309c-4bb7-be45-6124c8550c5f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Graphics\Buffers\Math">
-      <UniqueIdentifier>{552d0d0c-3744-4814-80f1-d9bd34314ab0}</UniqueIdentifier>
+    <Filter Include="src\Game">
+      <UniqueIdentifier>{2d4d48dc-14b7-4fa9-a784-bc3a6efbe5b9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="window.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="utils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="shader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="array_buffers.cpp">
-      <Filter>Source Files\Graphics\Buffers</Filter>
-    </ClCompile>
-    <ClCompile Include="element_buffer.cpp">
-      <Filter>Source Files\Graphics\Buffers</Filter>
-    </ClCompile>
-    <ClCompile Include="vertex_array.cpp">
-      <Filter>Source Files\Graphics\Buffers</Filter>
+      <Filter>src\Utilites</Filter>
     </ClCompile>
     <ClCompile Include="mat4.cpp">
-      <Filter>Source Files\Graphics\Buffers\Math</Filter>
+      <Filter>src\Utilites\Math</Filter>
     </ClCompile>
     <ClCompile Include="vec4.cpp">
-      <Filter>Source Files\Graphics\Buffers\Math</Filter>
+      <Filter>src\Utilites\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="array_buffers.cpp">
+      <Filter>src\Graphics\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="element_buffer.cpp">
+      <Filter>src\Graphics\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="vertex_array.cpp">
+      <Filter>src\Graphics\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="shader.cpp">
+      <Filter>src\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="window.cpp">
+      <Filter>src\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="callbacks.cpp">
+      <Filter>src\Utilites</Filter>
+    </ClCompile>
+    <ClCompile Include="entity.cpp">
+      <Filter>src\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="window.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="shader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="array_buffer.h">
-      <Filter>Header Files\Graphics\Buffers</Filter>
-    </ClInclude>
-    <ClInclude Include="element_buffer.h">
-      <Filter>Header Files\Graphics\Buffers</Filter>
-    </ClInclude>
-    <ClInclude Include="vertex_array.h">
-      <Filter>Header Files\Graphics\Buffers</Filter>
-    </ClInclude>
-    <ClInclude Include="buffers.h">
-      <Filter>Header Files\Graphics\Buffers</Filter>
+      <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="utils.h">
-      <Filter>Header Files\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="math_lib.h">
-      <Filter>Header Files\Utilities\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="vec2.h">
-      <Filter>Header Files\Utilities\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="vec3.h">
-      <Filter>Header Files\Utilities\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="vec4.h">
-      <Filter>Header Files\Utilities\Math</Filter>
+      <Filter>src\Utilites</Filter>
     </ClInclude>
     <ClInclude Include="mat3.h">
-      <Filter>Header Files\Utilities\Math</Filter>
+      <Filter>src\Utilites\Math</Filter>
     </ClInclude>
     <ClInclude Include="mat4.h">
-      <Filter>Header Files\Utilities\Math</Filter>
+      <Filter>src\Utilites\Math</Filter>
     </ClInclude>
-    <ClInclude Include="sprite.h">
-      <Filter>Header Files\Graphics</Filter>
+    <ClInclude Include="math_lib.h">
+      <Filter>src\Utilites\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="vec2.h">
+      <Filter>src\Utilites\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="vec3.h">
+      <Filter>src\Utilites\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="vec4.h">
+      <Filter>src\Utilites\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="array_buffer.h">
+      <Filter>src\Graphics\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="buffers.h">
+      <Filter>src\Graphics\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="element_buffer.h">
+      <Filter>src\Graphics\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="vertex_array.h">
+      <Filter>src\Graphics\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="shader.h">
+      <Filter>src\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="window.h">
+      <Filter>src\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="callbacks.h">
+      <Filter>src\Utilites</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer.h">
+      <Filter>src\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="renderable.h">
+      <Filter>src\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="entity.h">
+      <Filter>src\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -56,6 +56,11 @@ Window::Window(int width, int height)
 	}
 	glViewport(0, 0, width, height);
 
+
+	glfwSetWindowUserPointer(window, (void*)this);
+	glfwSetKeyCallback(window, key_callback);
+
+
 	return;
 
 }
@@ -75,7 +80,7 @@ bool Window::shouldClose()
 		return true;
 	}
 
-	if (glfwWindowShouldClose(window))
+	if (glfwWindowShouldClose(window) || isKeyPressed(GLFW_KEY_ESCAPE))
 	{
 		return true;
 	}
@@ -103,4 +108,14 @@ bool Window::checkGLErrors()
 	}
 
 	return glError;
+}
+
+bool Window::isKeyPressed(int key)
+{
+	return keys[key] == 1;
+}
+
+bool Window::isKeyHeld(int key)
+{
+	return keys[key] == 2;
 }

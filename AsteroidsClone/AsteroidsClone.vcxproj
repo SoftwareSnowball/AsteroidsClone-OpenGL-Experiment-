@@ -121,7 +121,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="array_buffers.cpp" />
+    <ClCompile Include="callbacks.cpp" />
     <ClCompile Include="element_buffer.cpp" />
+    <ClCompile Include="entity.cpp" />
     <ClCompile Include="mat4.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="vec4.cpp" />
@@ -132,13 +134,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="array_buffer.h" />
+    <ClInclude Include="callbacks.h" />
     <ClInclude Include="element_buffer.h" />
     <ClInclude Include="buffers.h" />
+    <ClInclude Include="entity.h" />
     <ClInclude Include="mat3.h" />
     <ClInclude Include="mat4.h" />
     <ClInclude Include="math_lib.h" />
+    <ClInclude Include="renderable.h" />
+    <ClInclude Include="renderer.h" />
     <ClInclude Include="shader.h" />
-    <ClInclude Include="sprite.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="externs.h" />
     <ClInclude Include="vec2.h" />

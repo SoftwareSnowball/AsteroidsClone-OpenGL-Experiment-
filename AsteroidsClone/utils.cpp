@@ -40,7 +40,3 @@ std::string read_file(std::string path)
 
 
 
-void error_callback(int error, const char* description)
-{
-	printf(description);
-}

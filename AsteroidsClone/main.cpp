@@ -6,15 +6,12 @@
 #include "shader.h"
 #include "buffers.h"
 #include "math_lib.h"
-#include <random>
-#include <ctime>
 
+#include "entity.h"
 
-#include <cassert>
 
 int main()
 {
-	srand(time(NULL));
 	Window window;
 
 	if (window.creationFailed())
@@ -24,13 +21,13 @@ int main()
 		return 0;
 	}
 
+#if 0
 	GLfloat vertices[] = {
 		-5, -5, 0,
 		5, -5, 0,
 		5, 5, 0,
 		-5, 5, 0
 	};
-
 
 	GLint indices[] = {
 		0,1,3,
@@ -44,26 +41,28 @@ int main()
 		1.0, 0.0f, 0.8f, 1.0f
 	};
 
-
 	VertexArray VAO = VertexArray();
-	Shader shader("shader.vert", "shader.frag");
+	Shader* shader = new Shader("shader.vert", "shader.frag");
 
-	ArrayBuffer vert = ArrayBuffer(vertices, 3 * 4, 0, 3);
-	ArrayBuffer col = ArrayBuffer(color, 4 * 4, 1, 4);
-	ElementBuffer el = ElementBuffer(indices, 3 * 2);
+	ArrayBuffer* vert = new ArrayBuffer(vertices, 3 * 4, 0, 3);
+	ArrayBuffer* col = new ArrayBuffer(color, 4 * 4, 1, 4);
+	ElementBuffer* el = new ElementBuffer(indices, 3 * 2);
 
+	VAO.addArrayBuffer(vert);
+	VAO.addArrayBuffer(col);
+	VAO.setElementBuffer(el);
 
-	VAO.addArrayBuffer(&vert);
-	VAO.addArrayBuffer(&col);
-	VAO.setElementBuffer(&el);
+	VAO.setShader(shader);
 
+#else
+	Entity thing;
 
-	VAO.setShader(&shader);
+#endif
 
-	mat4 view = mat4::orthographic(16, -16, 16, -16, 1, -1);
+	//mat4 view = mat4::orthographic(16, -16, 16, -16, 1, -1);
 
-	GLint viewLocation = glGetUniformLocation(shader.getId(), "transform"); 
-	glUniformMatrix4fv(viewLocation, 1, GL_FALSE, view.getElements());
+	//GLint viewLocation = glGetUniformLocation(shader->getId(), "transform"); 
+	//glUniformMatrix4fv(viewLocation, 1, GL_FALSE, view.getElements());
 
 	while (!window.shouldClose())
 	{
@@ -71,9 +70,13 @@ int main()
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		VAO.bind();
-		glDrawElements(GL_TRIANGLES, VAO.getRenderCount(), GL_UNSIGNED_INT, 0);
-		VAO.unbind();
+		//VAO.bind();
+		//glDrawElements(GL_TRIANGLES, VAO.getRenderCount(), GL_UNSIGNED_INT, 0);
+		//VAO.unbind();
+
+		thing.bind();
+		glDrawElements(GL_TRIANGLES, thing.getRenderCount(), GL_UNSIGNED_INT, 0);
+		thing.unbind();
 
 		window.update();
 	}

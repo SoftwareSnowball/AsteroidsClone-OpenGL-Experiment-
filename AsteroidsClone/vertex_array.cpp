@@ -3,7 +3,7 @@
 
 
 VertexArray::VertexArray()
-	:buffers(std::vector<ArrayBuffer*>()), elementBuffer(nullptr)
+	:buffers(std::vector<std::shared_ptr<ArrayBuffer>>()), elementBuffer(nullptr)
 {
 	glGenVertexArrays(1, &vaoID);
 
@@ -29,7 +29,7 @@ void VertexArray::unbind() const
 void VertexArray::addArrayBuffer(ArrayBuffer* buffer)
 {
 
-	buffers.push_back(buffer);
+	buffers.push_back(std::shared_ptr<ArrayBuffer>(buffer));
 	activateBuffer(buffer);
 
 }
@@ -46,7 +46,7 @@ void VertexArray::setElementBuffer(ElementBuffer* buffer)
 	}
 
 
-	elementBuffer = buffer;
+	elementBuffer = std::shared_ptr<ElementBuffer>(buffer);
 
 	buffer->bind();
 	unbind();
@@ -56,13 +56,23 @@ void VertexArray::setElementBuffer(ElementBuffer* buffer)
 void VertexArray::setShader(Shader * shaderInput)
 {
 
-	shader = shaderInput;
+	shader = std::shared_ptr<Shader>(shaderInput);
 
 	bind();
 	shader->setActive();
 	unbind();
 
 
+}
+
+GLuint VertexArray::getShaderID() const
+{
+	if (!shader)
+	{
+		return 0;
+	}
+
+	return shader->getId();
 }
 
 GLsizei VertexArray::getRenderCount() const
