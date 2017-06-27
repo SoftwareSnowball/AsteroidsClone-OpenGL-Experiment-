@@ -58,6 +58,9 @@
     <ClCompile Include="entity.cpp">
       <Filter>src\Game</Filter>
     </ClCompile>
+    <ClCompile Include="vec3.cpp">
+      <Filter>src\Utilites\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="externs.h">

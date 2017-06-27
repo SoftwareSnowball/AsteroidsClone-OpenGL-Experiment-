@@ -3,7 +3,7 @@
 
 
 VertexArray::VertexArray()
-	:buffers(std::vector<std::shared_ptr<ArrayBuffer>>()), elementBuffer(nullptr)
+	:buffers(std::vector<ArrayBuffer*>()), elementBuffer(nullptr)
 {
 	glGenVertexArrays(1, &vaoID);
 
@@ -13,6 +13,21 @@ VertexArray::VertexArray()
 VertexArray::~VertexArray()
 {
 	std::cout << "Destructor was called on Vertex Array\n";
+
+	delete elementBuffer;
+
+	for (int i = 0; i < buffers.size(); i++)
+	{
+		delete buffers[i];
+	}
+
+
+
+	std::vector<ArrayBuffer*> buffers;
+	ElementBuffer* elementBuffer;
+	Shader* shader;
+
+
 	glDeleteVertexArrays(1, &vaoID);
 }
 
@@ -29,7 +44,7 @@ void VertexArray::unbind() const
 void VertexArray::addArrayBuffer(ArrayBuffer* buffer)
 {
 
-	buffers.push_back(std::shared_ptr<ArrayBuffer>(buffer));
+	buffers.push_back(buffer);
 	activateBuffer(buffer);
 
 }
@@ -46,7 +61,7 @@ void VertexArray::setElementBuffer(ElementBuffer* buffer)
 	}
 
 
-	elementBuffer = std::shared_ptr<ElementBuffer>(buffer);
+	elementBuffer = buffer;
 
 	buffer->bind();
 	unbind();
@@ -56,7 +71,7 @@ void VertexArray::setElementBuffer(ElementBuffer* buffer)
 void VertexArray::setShader(Shader * shaderInput)
 {
 
-	shader = std::shared_ptr<Shader>(shaderInput);
+	shader = shaderInput;
 
 	bind();
 	shader->setActive();

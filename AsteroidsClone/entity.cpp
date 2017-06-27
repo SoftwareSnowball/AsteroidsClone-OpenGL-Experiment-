@@ -1,12 +1,12 @@
 #include "entity.h"
 
-Entity::Entity()
+Entity::Entity(Shader* shader)
 {
 	GLfloat vertices[] = {
-		-5, -5, 0,
-		5, -5, 0,
-		5, 5, 0,
-		-5, 5, 0
+		0, 0, 0,
+		0, -1, 0,
+		-1, -1, 0,
+		-1, 0, 0
 	};
 
 	GLint indices[] = {
@@ -21,8 +21,7 @@ Entity::Entity()
 		1.0, 0.0f, 0.8f, 1.0f
 	};
 
-	VAO = std::unique_ptr<VertexArray>();
-	Shader* shader = new Shader("shader.vert", "shader.frag");
+	VAO = new VertexArray();
 
 	ArrayBuffer* vert = new ArrayBuffer(vertices, 3 * 4, 0, 3);
 	ArrayBuffer* col = new ArrayBuffer(color, 4 * 4, 1, 4);
@@ -35,10 +34,13 @@ Entity::Entity()
 	VAO->setShader(shader);
 
 
+	matframe = mat4::identity();
 }
 
 Entity::~Entity()
 {
+	delete VAO;
+	delete matframe;
 }
 
 void Entity::update()
@@ -56,7 +58,7 @@ const vec3& Entity::getLocation() const
 
 const mat4& Entity::getRotation() const
 {
-	return matframe;
+	return *matframe;
 }
 
 void Entity::setLocation(const vec3& newLocation)
@@ -66,12 +68,12 @@ void Entity::setLocation(const vec3& newLocation)
 
 void Entity::setMatframe(const mat4& frame)
 {
-	matframe = frame;
+	matframe = new mat4(frame);
 }
 
 void Entity::pushMatframe(const mat4& frame)
 {
-	matframe = matframe.mul(frame);
+	*matframe = matframe->mul(frame);
 }
 
 void Entity::popMatframe(const mat4 & frame)
@@ -85,7 +87,9 @@ void Entity::bind()
 		return;
 	}
 
-	
+	VAO->getShaderID();
+	GLint uniformId = glGetUniformLocation(VAO->getShaderID(), "localTransform");
+	glUniformMatrix4fv(uniformId, 1, GL_FALSE, matframe->getElements());
 	VAO->bind();
 
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include "vertex_array.h"
+#include "shader.h"
 #include "math_lib.h"
 #include <memory>
 #include "renderable.h"
@@ -8,7 +9,7 @@ class Entity : public Renderable
 {
 public:
 
-	Entity();
+	Entity(Shader* shader);
 	~Entity();
 	
 	void update();
@@ -30,8 +31,8 @@ public:
 
 protected:
 
-	std::unique_ptr<VertexArray> VAO;
+	VertexArray* VAO;
 	vec3 location;
 	vec3 velocity;
-	mat4 matframe;
+	mat4* matframe;
 };

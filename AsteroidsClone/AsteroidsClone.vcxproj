@@ -126,6 +126,7 @@
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="mat4.cpp" />
     <ClCompile Include="shader.cpp" />
+    <ClCompile Include="vec3.cpp" />
     <ClCompile Include="vec4.cpp" />
     <ClCompile Include="vertex_array.cpp" />
     <ClCompile Include="utils.cpp" />

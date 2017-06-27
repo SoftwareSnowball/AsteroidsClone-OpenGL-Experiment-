@@ -28,9 +28,9 @@ public:
 private:
 	void activateBuffer(ArrayBuffer*);
 
-	std::vector<std::shared_ptr<ArrayBuffer>> buffers;
-	std::shared_ptr<ElementBuffer> elementBuffer;
-	std::shared_ptr<Shader> shader;
+	std::vector<ArrayBuffer*> buffers;
+	ElementBuffer* elementBuffer;
+	Shader* shader;
 	GLuint vaoID;
 
 

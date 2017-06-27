@@ -10,22 +10,25 @@ public:
 	mat4(float* elementptr);
 	~mat4();
 
+	void print();
+
 	void add(const mat4& other);
 	void sub(const mat4& other);
 	mat4 mul(const mat4& other);
 
 	float determinant();
 
-	mat4 transpose();
-	mat4 invert();
+	mat4* transpose();
+	mat4* invert();
 
-	static mat4 orthographic(float right, float left, float top, float bot, float near, float far);
-	static mat4 perspective();
+	static mat4* orthographic(float right, float left, float top, float bot, float near, float far);
+	static mat4* perspective();
 
-	static mat4 scaling(float x, float y, float z);
-	static mat4 translation(float x, float y, float z);
-	static mat4 translation(const vec3&);
-	static mat4 rotation();
+	static mat4* identity();
+	static mat4* scaling(float x, float y, float z);
+	static mat4* translation(float x, float y, float z);
+	static mat4* translation(const vec3&);
+	static mat4* rotation();
 
 	inline const float* getElements() { return elements; }
 
@@ -36,7 +39,7 @@ private:
 
 	
 
-	float elements[4 * 4];
+	float elements[16];
 
 
 
